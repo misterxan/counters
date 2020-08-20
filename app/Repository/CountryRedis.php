@@ -8,6 +8,7 @@ namespace App\Repository;
 use App\CountryCollection;
 use App\CountryData;
 use Illuminate\Redis\RedisManager;
+use Illuminate\Support\Facades\Cache;
 
 class CountryRedis implements Country
 {
@@ -39,7 +40,12 @@ class CountryRedis implements Country
     function getCounters(): CountryCollection
     {
         $prepare = [];
-        $allData = $this->redis->client()->hGetAll("countries");
+        $allData = Cache::get("countries", null);
+        if ($allData === null) {
+            $allData = Cache::remember("countries", 5, function () {
+                return $this->redis->client()->hGetAll("countries");
+            });
+        }
         foreach ($allData as $code => $counter) {
             $prepare[] = [
                 'code' => $code,
