@@ -16,5 +16,5 @@ $router->get('/', function () use ($router) {
 });
 
 $router->get('counter', 'CountController@getCount');
-$router->post('counter/{countryCode}', 'CountController@incrementCount');
+$router->post('counter', 'CountController@incrementCount');
 
