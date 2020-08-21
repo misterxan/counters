@@ -37,7 +37,7 @@ class CountController extends Controller
     {
         $this->validate(
             $request, [
-                'country_code' => ['required', 'string', new LowerCase()],
+                'country_code' => ['required','size:2', 'string', new LowerCase()],
             ]
         );
         $countryCode = $request->get('country_code');

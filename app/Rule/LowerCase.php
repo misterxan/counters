@@ -17,7 +17,7 @@ class LowerCase implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        return strtolower($value) === $value;
+        return strtolower((string)$value) === $value;
     }
 
     /**
