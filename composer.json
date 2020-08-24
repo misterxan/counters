@@ -7,6 +7,7 @@
     "require": {
         "php": "^7.4",
         "illuminate/redis": "^7.25",
+        "laravel-validation-rules/country-codes": "^2.1",
         "laravel/lumen-framework": "^7.0",
         "predis/predis": "^1.1",
         "spatie/data-transfer-object": "^2.3"

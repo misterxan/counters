@@ -7,6 +7,7 @@ use App\Repository\Country;
 use App\Rule\LowerCase;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use LVR\CountryCode\Two;
 use Symfony\Component\HttpFoundation\Response;
 
 class CountController extends Controller
@@ -37,7 +38,12 @@ class CountController extends Controller
     {
         $this->validate(
             $request, [
-                'country_code' => ['required','size:2', 'string', new LowerCase()],
+                'country_code' => [
+                    'bail',
+                    'required',
+                    new Two(),
+                    new LowerCase(),
+                ],
             ]
         );
         $countryCode = $request->get('country_code');

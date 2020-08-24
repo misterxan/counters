@@ -9,8 +9,16 @@
 * Методы:
 
 ```
-[POST] /counter/{countryCode}
+[POST] /counter/
+Request: {
+    "country_code": "ru"
+}
 Response: 201 Created, empty
+422 Unprocessable entity, {
+    "country_code":[
+        "Invalid ISO3166-A2 country code."
+    ]
+}
 ```
 ```
 [GET] /counter

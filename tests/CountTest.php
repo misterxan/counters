@@ -6,31 +6,56 @@ use Laravel\Lumen\Testing\DatabaseTransactions;
 class CountTest extends TestCase
 {
     /**
-     * A basic test example.
+     * Testing country count
      *
      * @return void
      */
     public function testCounter()
     {
-        $this->post('/counter/es');
+        $this->post('/counter', ["country_code" => "us"]);
         $this->assertEquals(
             201, $this->response->getStatusCode()
         );
-        app('redis')->hDel("countries", "es");
+        app('redis')->hDel("countries", "us");
     }
 
     /**
-     * A basic test example.
+     * Testing country count negative
+     *
+     * @return void
+     */
+    public function testCounterNegative()
+    {
+        $this->post('/counter', ["country_code" => 11]);
+        $this->assertEquals(
+            422, $this->response->getStatusCode()
+        );
+        $this->post('/counter', ["country_code" => 112]);
+        $this->assertEquals(
+            422, $this->response->getStatusCode()
+        );
+        $this->post('/counter', ["country_code" => "JAP"]);
+        $this->assertEquals(
+            422, $this->response->getStatusCode()
+        );
+        $this->post('/counter', ["country_code" => "11"]);
+        $this->assertEquals(
+            422, $this->response->getStatusCode()
+        );
+    }
+
+    /**
+     * Test to get country count
      *
      * @return void
      */
     public function testGet()
     {
-        $this->post('/counter/es');
-        $this->get('/counter')->seeJsonContains([['code' => 'es', 'count' => 1]]);
+        $this->post('/counter', ["country_code" => "us"]);
+        $this->get('/counter')->seeJsonContains([['code' => 'us', 'count' => 1]]);
         $this->assertEquals(
             200, $this->response->getStatusCode()
         );
-        app('redis')->hDel("countries", "es");
+        app('redis')->hDel("countries", "us");
     }
 }
